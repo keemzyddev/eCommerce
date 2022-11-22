@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { mobile } from "../../../responsive";
 
 export const Container = styled.div`
 	flex: 1;
@@ -11,7 +12,7 @@ export const Image = styled.img`
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
-	position: absolute;
+	${mobile({ height: "30vh" })}
 `;
 
 export const Info = styled.div`
@@ -36,6 +37,6 @@ export const Button = styled.button`
 	padding: 10px;
 	background-color: #fff;
 	color: gray;
-    font-weight: 600;
-    cursor: pointer;
+	font-weight: 600;
+	cursor: pointer;
 `;
