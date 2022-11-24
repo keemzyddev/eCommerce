@@ -2,9 +2,10 @@ import express from "express";
 import dotenv from "dotenv";
 import colors from "colors";
 import { db } from "./config/db.js";
+import { loginValidation } from "./middleware/errorHandler.js";
 import authRoute from "./routes/authRoute.js";
 import userRoute from "./routes/userRoute.js";
-// import productRoute from "./routes/productRoute.js";
+import productRoute from "./routes/productRoute.js";
 // import cartRoute from "./routes/cartRoute.js";
 // import orderRoute from "./routes/orderRoute.js";
 
@@ -19,10 +20,11 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.use("/api", authRoute);
-app.use("/api", userRoute);
-// app.use("/api", productRoute);
+app.use("/api/auth", authRoute);
+app.use("/api/users", userRoute);
+app.use("/api/products", productRoute);
 // app.use("/api", cartRoute);
 // app.use("/api", orderRoute);
+app.use(loginValidation);
 
 app.listen(PORT, () => console.log(`Server running on PORT ${PORT}`));
