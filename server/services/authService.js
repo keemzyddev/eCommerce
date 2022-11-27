@@ -28,8 +28,8 @@ const createUser = async (username, email, password) => {
 	}
 };
 
-const loginUser = async (username, password) => {
-	try {
+const loginUser = (username, password) => {
+	return new Promise(async (resolve, reject) => {
 		const user = await User.findOne({ username });
 
 		const accessToken = jwt.sign(
@@ -45,16 +45,14 @@ const loginUser = async (username, password) => {
 
 		if (user && (await bcrypt.compare(password, user.password))) {
 			const { password, ...others } = user._doc;
-			return { ...others, accessToken };
+			return resolve({ ...others, accessToken });
 		} else {
-			throw {
+			return reject({
 				status: 400,
 				message: "Wrong credentials",
-			};
+			});
 		}
-	} catch (error) {
-		throw { status: error?.status || 500, message: error?.message || error };
-	}
+	});
 };
 
 export default { createUser, loginUser };

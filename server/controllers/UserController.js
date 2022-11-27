@@ -52,6 +52,7 @@ export const getUser = async (req, res) => {
 		const user = await UserService.getUser(id);
 		res.status(200).json(user);
 	} catch (error) {
+		console.log(error);
 		// res
 		// 	.status(error?.status || 500)
 		// 	.json({ status: "FAILED", data: { error: error?.message || error } });
@@ -63,6 +64,7 @@ export const getUserStat = async (req, res) => {
 		const data = await UserService.getUserStat();
 		res.status(200).json({ UserStat: data });
 	} catch (error) {
+		console.log(error);
 		// res
 		// 	.status(error?.status || 500)
 		// 	.json({ status: "FAILED", data: { error: error?.message || error } });
