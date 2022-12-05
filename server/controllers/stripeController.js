@@ -1,14 +1,22 @@
 import StripeService from "../services/stripeService.js";
 
+export const getClientSecret = async (req, res) => {
+  try {
+    const publishableKey = await StripeService.getClientSecret();
+    res.json({ publishableKey: process.env.STRIPE_PUBLISHABLE_KEY });
+  } catch (error) {
+    res.send(error);
+  }
+};
+
 export const stripePayment = async (req, res) => {
-	const { unit_amount, quantity } = req.body;
-	try {
-		const stripeResponse = StripeService.stripePayment(unit_amount, quantity);
-		res.status(200).json(stripeResponse);
-	} catch (error) {
-		console.log(error);
-		res
-			.status(error?.status || 500)
-			.json({ status: "FAILED", data: { error: error?.message || error } });
-	}
+  try {
+    const paymentIntent = await StripeService.stripePayment();
+    res.json(paymentIntent);
+  } catch (error) {
+    console.log(error);
+    res
+      .status(error?.status || 500)
+      .json({ status: "FAILED", data: { error: error?.message || error } });
+  }
 };

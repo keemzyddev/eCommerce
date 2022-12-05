@@ -10,10 +10,6 @@ import productRoute from "./routes/productRoute.js";
 import cartRoute from "./routes/cartRoute.js";
 import orderRoute from "./routes/orderRoute.js";
 import stripeRoute from "./routes/stripeRoute.js";
-import Stripe from "stripe";
-
-const stripe = new Stripe(process.env.STRIPE_KEY);
-
 dotenv.config();
 
 db();
@@ -32,19 +28,19 @@ app.use("/api/products", productRoute);
 app.use("/api/carts", cartRoute);
 app.use("/api/orders", orderRoute);
 app.use("/api/checkout", stripeRoute);
-app.use(loginValidation);
+// app.use(loginValidation);
 
-// app.get("/secret", async (req, res) => {
-// 	try {
-// 		const intent = await stripe.paymentIntents.create({
-// 			amount: 1099,
-// 			currency: "usd",
-// 			payment_method_types: ["card"],
-// 		});
-// 		res.json(intent);
-// 	} catch (error) {
-// 		res.send(error);
-// 	}
-// });
+app.get("/secret", async (req, res) => {
+  try {
+    const intent = await stripe.paymentIntents.create({
+      amount: 1099,
+      currency: "usd",
+    });
+    res.json({ client_secret: intent.client_secret });
+  } catch (error) {
+    res.send(error);
+    console.log(error);
+  }
+});
 
 app.listen(PORT, () => console.log(`Server running on PORT ${PORT}`));
