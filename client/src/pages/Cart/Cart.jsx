@@ -2,131 +2,115 @@ import Nav from "../../components/Nav/Nav";
 import Announcement from "../../components/Announcement/Announcement";
 import Footer from "../../components/Footer/Footer";
 import {
-	Bottom,
-	Button,
-	Container,
-	Details,
-	Hr,
-	Image,
-	Info,
-	PriceDetail,
-	Product,
-	ProductAmount,
-	ProductAmountContainer,
-	ProductColor,
-	ProductDetail,
-	ProductId,
-	ProductName,
-	ProductPrice,
-	ProductSize,
-	Summary,
-	SummaryItem,
-	SummaryItemPrice,
-	SummaryItemText,
-	SummaryTitle,
-	Title,
-	Top,
-	TopButton,
-	TopText,
-	TopTexts,
-	Wrapper,
+  Bottom,
+  Button,
+  Container,
+  Details,
+  Hr,
+  Image,
+  Info,
+  PriceDetail,
+  Product,
+  ProductAmount,
+  ProductAmountContainer,
+  ProductColor,
+  ProductDetail,
+  ProductId,
+  ProductName,
+  ProductPrice,
+  ProductSize,
+  Summary,
+  SummaryItem,
+  SummaryItemPrice,
+  SummaryItemText,
+  SummaryTitle,
+  Title,
+  Top,
+  TopButton,
+  TopText,
+  TopTexts,
+  Wrapper,
 } from "./style";
 import { Add, Remove } from "@material-ui/icons";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const Cart = () => {
-	return (
-		<Container>
-			<Nav />
-			<Announcement />
-			<Wrapper>
-				<Title>YOUR BAG</Title>
-				<Top>
-					<TopButton>CONTINUE SHOPPING</TopButton>
-					<TopTexts>
-						<TopText>Shopping Bag(2)</TopText>
-						<TopText>Your Wishlist (0)</TopText>
-					</TopTexts>
-					<TopButton type="filled">CHECKOUT NOW</TopButton>
-				</Top>
-				<Bottom>
-					<Info>
-						<Product>
-							<ProductDetail>
-								<Image src="https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1614188818-TD1MTHU_SHOE_ANGLE_GLOBAL_MENS_TREE_DASHERS_THUNDER_b01b1013-cd8d-48e7-bed9-52db26515dc4.png?crop=1xw:1.00xh;center,top&resize=480%3A%2A" />
-								<Details>
-									<ProductName>
-										<b>Product:</b> YEEZY BOOST
-									</ProductName>
-									<ProductId>
-										<b>ID:</b> 9883645446
-									</ProductId>
-									<ProductColor color="black" />
-									<ProductSize>
-										<b>Size:</b> 45
-									</ProductSize>
-								</Details>
-							</ProductDetail>
-							<PriceDetail>
-								<ProductAmountContainer>
-									<Add />
-									<ProductAmount>2</ProductAmount>
-									<Remove />
-								</ProductAmountContainer>
-								<ProductPrice>$30</ProductPrice>
-							</PriceDetail>
-						</Product>
-						<Hr />
-						<Product>
-							<ProductDetail>
-								<Image src="https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1614188818-TD1MTHU_SHOE_ANGLE_GLOBAL_MENS_TREE_DASHERS_THUNDER_b01b1013-cd8d-48e7-bed9-52db26515dc4.png?crop=1xw:1.00xh;center,top&resize=480%3A%2A" />
-								<Details>
-									<ProductName>
-										<b>Product:</b> YEEZY BOOST
-									</ProductName>
-									<ProductId>
-										<b>ID:</b> 9883645446
-									</ProductId>
-									<ProductColor color="black" />
-									<ProductSize>
-										<b>Size:</b> 45
-									</ProductSize>
-								</Details>
-							</ProductDetail>
-							<PriceDetail>
-								<ProductAmountContainer>
-									<Add />
-									<ProductAmount>2</ProductAmount>
-									<Remove />
-								</ProductAmountContainer>
-								<ProductPrice>$30</ProductPrice>
-							</PriceDetail>
-						</Product>
-					</Info>
-					<Summary>
-						<SummaryTitle>ORDER SUMMARY</SummaryTitle>
-						<SummaryItem>
-							<SummaryItemText>Subtotal</SummaryItemText>
-							<SummaryItemPrice>$80</SummaryItemPrice>
-						</SummaryItem>
-						<SummaryItem>
-							<SummaryItemText>Estimated Shipping</SummaryItemText>
-							<SummaryItemPrice>$5.90</SummaryItemPrice>
-						</SummaryItem>
-						<SummaryItem>
-							<SummaryItemText>Shipping Discount</SummaryItemText>
-							<SummaryItemPrice>$-5.90</SummaryItemPrice>
-						</SummaryItem>
-						<SummaryItem type="total">
-							<SummaryItemText>Total</SummaryItemText>
-							<SummaryItemPrice>$80</SummaryItemPrice>
-						</SummaryItem>
-						<Button>CHECKOUT NOW</Button>
-					</Summary>
-				</Bottom>
-			</Wrapper>
-			<Footer />
-		</Container>
-	);
+  const cart = useSelector((state) => state.cart);
+  return (
+    <Container>
+      <Nav />
+      <Announcement />
+      <Wrapper>
+        <Title>YOUR BAG</Title>
+        <Top>
+          <TopButton>CONTINUE SHOPPING</TopButton>
+          <TopTexts>
+            <TopText>Shopping Bag(2)</TopText>
+            <TopText>Your Wishlist (0)</TopText>
+          </TopTexts>
+          <TopButton type="filled">
+            <Link to={"/pay"}>CHECKOUT NOW</Link>
+          </TopButton>
+        </Top>
+        <Bottom>
+          <Info>
+            {cart.product.map((p) => (
+              <Product key={p._id}>
+                <ProductDetail>
+                  <Image src={p.img} />
+                  <Details>
+                    <ProductName>
+                      <b>Product:</b> {p.title}
+                    </ProductName>
+                    <ProductId>
+                      <b>ID:</b> {p._id}
+                    </ProductId>
+                    <ProductColor color={p.color} />
+                    <ProductSize>
+                      <b>Size:</b> {p.size}
+                    </ProductSize>
+                  </Details>
+                </ProductDetail>
+                <PriceDetail>
+                  <ProductAmountContainer>
+                    <Add />
+                    <ProductAmount>{p.quantity}</ProductAmount>
+                    <Remove />
+                  </ProductAmountContainer>
+                  <ProductPrice>$ {p.price * p.quantity}</ProductPrice>
+                </PriceDetail>
+              </Product>
+            ))}
+            <Hr />
+          </Info>
+          <Summary>
+            <SummaryTitle>ORDER SUMMARY</SummaryTitle>
+            <SummaryItem>
+              <SummaryItemText>Subtotal</SummaryItemText>
+              <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
+            </SummaryItem>
+            <SummaryItem>
+              <SummaryItemText>Estimated Shipping</SummaryItemText>
+              <SummaryItemPrice>$5.90</SummaryItemPrice>
+            </SummaryItem>
+            <SummaryItem>
+              <SummaryItemText>Shipping Discount</SummaryItemText>
+              <SummaryItemPrice>$-5.90</SummaryItemPrice>
+            </SummaryItem>
+            <SummaryItem type="total">
+              <SummaryItemText>Total</SummaryItemText>
+              <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
+            </SummaryItem>
+            <Link to={"/pay"}>
+              <Button>CHECKOUT NOW</Button>
+            </Link>
+          </Summary>
+        </Bottom>
+      </Wrapper>
+      <Footer />
+    </Container>
+  );
 };
 
 export default Cart;

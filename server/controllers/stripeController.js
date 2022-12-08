@@ -10,8 +10,9 @@ export const getClientSecret = async (req, res) => {
 };
 
 export const stripePayment = async (req, res) => {
+  const { price } = req.body;
   try {
-    const paymentIntent = await StripeService.stripePayment();
+    const paymentIntent = await StripeService.stripePayment(price);
     res.json(paymentIntent);
   } catch (error) {
     console.log(error);

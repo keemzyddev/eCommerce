@@ -12,10 +12,10 @@ const getClientSecret = async () => {
   }
 };
 
-const stripePayment = async () => {
+const stripePayment = async (price) => {
   try {
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: 2000,
+      amount: price,
       currency: "usd",
       automatic_payment_methods: {
         enabled: true,
