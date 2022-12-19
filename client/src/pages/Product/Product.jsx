@@ -26,7 +26,7 @@ import { Add, Remove } from "@material-ui/icons";
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { publicRequest } from "../../requestMethod";
-import { addProduct } from "../../redux/cartRedux";
+import { addProduct } from "../../redux/cartSlice";
 import { useDispatch } from "react-redux";
 
 const Product = () => {

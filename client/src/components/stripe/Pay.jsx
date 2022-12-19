@@ -26,7 +26,6 @@ const Pay = () => {
       );
 
       const { clientSecret } = res.data;
-      console.log(clientSecret);
       setClientSecret(clientSecret);
       return clientSecret;
     };
@@ -38,7 +37,6 @@ const Pay = () => {
       "http://localhost:5000/api/checkout/publishablekey"
     );
     const { publishableKey } = res.data;
-    console.log(publishableKey);
     setStripePromise(loadStripe(publishableKey));
     return publishableKey;
   };

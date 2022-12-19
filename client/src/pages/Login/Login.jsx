@@ -1,20 +1,51 @@
-import { Button, Container, Form, Input, LINK, Title, Wrapper } from "./style";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../../redux/apiCalls";
+import {
+  Button,
+  Container,
+  Error,
+  Form,
+  Input,
+  LINK,
+  Title,
+  Wrapper,
+} from "./style";
 
 const Login = () => {
-	return (
-		<Container>
-			<Wrapper>
-				<Title>SIGN IN</Title>
-				<Form>
-					<Input placeholder="username" />
-					<Input placeholder="password" />
-					<Button>LOGIN</Button>
-					<LINK>FORGOT PASSWORD?</LINK>
-					<LINK>CREATE A NEW ACCOUNT</LINK>
-				</Form>
-			</Wrapper>
-		</Container>
-	);
+  const { isFetching, error } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    login(dispatch, { username, password });
+  };
+  return (
+    <Container>
+      <Wrapper>
+        <Title>SIGN IN</Title>
+        <Form onSubmit={handleLogin}>
+          <Input
+            placeholder="username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <Input
+            placeholder="password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <Button disabled={isFetching}>LOGIN</Button>
+          {error && <Error>Something went wrong...</Error>}
+          <LINK>FORGOT PASSWORD?</LINK>
+          <LINK>CREATE A NEW ACCOUNT</LINK>
+        </Form>
+      </Wrapper>
+    </Container>
+  );
 };
 
 export default Login;

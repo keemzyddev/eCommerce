@@ -10,9 +10,12 @@ import ProductList from "./pages/ProductList/ProductList";
 // import CheckoutForm from "./components/stripe/CheckoutForm";
 import Pay from "./components/stripe/Pay";
 import Success from "./components/stripe/Success";
+import { useSelector } from "react-redux";
 
 function App() {
+  // const user = useSelector((state) => state.user.currentUser);
   const user = true;
+
   return (
     <div className="App">
       <BrowserRouter>

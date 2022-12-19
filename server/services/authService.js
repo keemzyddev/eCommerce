@@ -32,18 +32,18 @@ const loginUser = (username, password) => {
   return new Promise(async (resolve, reject) => {
     const user = await User.findOne({ username });
     console.log(user);
-    const accessToken = jwt.sign(
-      {
-        id: user.id,
-        isAdmin: user.isAdmin,
-      },
-      process.env.JWT_KEY,
-      {
-        expiresIn: "3d",
-      }
-    );
 
     if (user && (await bcrypt.compare(password, user.password))) {
+      const accessToken = jwt.sign(
+        {
+          id: user._id,
+          isAdmin: user.isAdmin,
+        },
+        process.env.JWT_KEY,
+        {
+          expiresIn: "3d",
+        }
+      );
       const { password, ...others } = user._doc;
       return resolve({ ...others, accessToken });
     } else {
